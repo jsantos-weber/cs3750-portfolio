@@ -1,10 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
+import SpeedNavbar from "./components/SpeedNavbar"
 
 function App() {
   return (
-    <div className="App">
-      <p>Hello World!</p>
+    <div >
+      <SpeedNavbar />
+      <p text-align="center">Hello World!</p>
     </div>
   );
 }
