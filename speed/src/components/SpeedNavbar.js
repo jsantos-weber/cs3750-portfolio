@@ -7,7 +7,7 @@ const SpeedNavbar = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="#home" >Speed Game</Navbar.Brand>
+        <Navbar.Brand href="#home" >Speed</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="#home">Home</Nav.Link>
           <Nav.Link href="#features">Login</Nav.Link>

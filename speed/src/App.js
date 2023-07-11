@@ -1,11 +1,12 @@
 import "./App.css";
+import HelloWorld from "./components/HelloWorld";
 import SpeedNavbar from "./components/SpeedNavbar"
 
 function App() {
   return (
-    <div >
+    <div>
       <SpeedNavbar />
-      <p text-align="center">Hello World!</p>
+      <HelloWorld />
     </div>
   );
 }
