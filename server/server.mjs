@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import "./loadEnvironment.mjs"
+import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 const app = express();
 
 app.use(express.json());
@@ -22,22 +22,7 @@ function saltShaker(length) {
 }
 
 app.get("/", (req, res) => res.send("Hello, World!"));
-
-app.post("/hello", async (req, res) => {
-    let collection = await db.collection("hello")
-    let results = await collection.find("64acae05ee609eabf8c34f24").toArray();
-    console.log(results);
-    results.forEach((document) => {
-        let message = document.message
-        res.send(message)
-    })
-    console.log("Done")
-});
-    
-
 app.get("/salt", (req, res) => res.send(saltShaker(8)));
-
-
 
 app.post("/loginWithSalt", async (req, res) => {
   const username = req.body.username;
@@ -77,6 +62,23 @@ app.post("/login", async (req, res) => {
       res.send({ loggedIn: true }).status(200);
     } else {
       res.send({ loggedIn: false }).status(200);
+    }
+  });
+});
+
+app.post("/hello", async (req, res) => {
+  const message = req.body.message;
+  
+  let collection = await db.collection("hello");
+  let results = await collection.find({ message: message }).toArray();
+  
+  results.forEach((document) => {
+    let storedMessage = document.message;
+    
+    if (JSON.stringify(message) === JSON.stringify(storedMessage)) {
+      res.send(JSON.stringify(message)).status(200);
+    } else {
+      res.send("Did not work").status(200);
     }
   });
 });
