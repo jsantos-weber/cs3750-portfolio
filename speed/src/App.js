@@ -1,6 +1,6 @@
 import "./App.css";
 import HelloWorld from "./components/HelloWorld";
-import SpeedNavbar from "./components/SpeedNavbar"
+import SpeedNavbar from "./components/SpeedNavbar";
 
 function App() {
   return (

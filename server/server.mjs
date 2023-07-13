@@ -21,6 +21,47 @@ function saltShaker(length) {
   return salt;
 }
 
+// const suits = ["♠", "♣", "♥", "♦"];
+// const ranks = [
+//   "A",
+//   "2",
+//   "3",
+//   "4",
+//   "5",
+//   "6",
+//   "7",
+//   "8",
+//   "9",
+//   "10",
+//   "J",
+//   "Q",
+//   "K",
+// ];
+// function generateDeck() {
+//    const deck = [];
+
+//    for (let suit of suits) {
+//      for (let rank of ranks) {
+//        deck.push({ suit, rank });
+//      }
+//    }
+
+//    // Shuffle the deck using Fisher-Yates algorithm
+//    for (let i = deck.length - 1; i > 0; i--) {
+//      const j = Math.floor(Math.random() * (i + 1));
+//      [deck[i], deck[j]] = [deck[j], deck[i]];
+//    }
+
+//    return deck;
+// }
+
+// app.get("/deck", (req, res) => {
+//   const deck = generateDeck(); // Generate the deck of cards
+
+//   // Return the deck as the API response
+//   res.json(deck);
+// });
+
 app.get("/", (req, res) => res.send("Hello, World!"));
 app.get("/salt", (req, res) => res.send(saltShaker(8)));
 
