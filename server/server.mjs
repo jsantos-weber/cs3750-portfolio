@@ -2,13 +2,48 @@ import express from "express";
 import cors from "cors";
 import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
+import http from 'http'
+import { Server as socketIOServer } from 'socket.io';
+
 const PORT = process.env.PORT || 4000;
+const PORT2 = process.env.PORT || 5000;
 const app = express();
+const server = http.createServer(app);
+const io = new socketIOServer(server);
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
+<<<<<<< HEAD
 // Helper Functions
+=======
+
+const emotes = [
+  { id: 1, name: 'Happy', emoji: '😄' },
+  { id: 2, name: 'Sad', emoji: '😢' },
+  // Add more emotes as needed
+];
+
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  socket.on('emote', (emoteId) => {
+    const emote = emotes.find((e) => e.id === emoteId);
+    if (emote) {
+      io.emit('emote', emote); // Broadcast the emote to all connected clients
+    }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+server.listen(PORT2, () => {
+  console.log(`Server listening on port ${PORT2}`);
+});
+>>>>>>> a9d4657f0cb295dad5aeeadd7980c419b2c82691
 
 function saltShaker(length) {
   let salt = "";
