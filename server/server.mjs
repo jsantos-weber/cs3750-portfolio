@@ -14,9 +14,6 @@ const io = new socketIOServer(server);
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
-<<<<<<< HEAD
-// Helper Functions
-=======
 
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
@@ -43,7 +40,6 @@ io.on('connection', (socket) => {
 server.listen(PORT2, () => {
   console.log(`Server listening on port ${PORT2}`);
 });
->>>>>>> a9d4657f0cb295dad5aeeadd7980c419b2c82691
 
 function saltShaker(length) {
   let salt = "";
