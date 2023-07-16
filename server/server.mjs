@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
+// Helper Functions
+
 function saltShaker(length) {
   let salt = "";
   const characters =
@@ -20,6 +22,7 @@ function saltShaker(length) {
   }
   return salt;
 }
+
 function generateDeck() {
   const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
   const ranks = [
@@ -66,7 +69,9 @@ function splitDeck(deck) {
   return piles;
 }
 
-// Usage example:
+// GET Requests
+app.get("/", (req, res) => res.send("Hello, World!"));
+app.get("/salt", (req, res) => res.send(saltShaker(8)));
 
 app.get("/deck", (req, res) => {
   const deck = generateDeck();
@@ -79,9 +84,7 @@ console.log("Pile 4:", piles[3]);
   res.json(piles);
 });
 
-app.get("/", (req, res) => res.send("Hello, World!"));
-app.get("/salt", (req, res) => res.send(saltShaker(8)));
-
+// POST Requests
 app.post("/loginWithSalt", async (req, res) => {
   const username = req.body.username;
 
