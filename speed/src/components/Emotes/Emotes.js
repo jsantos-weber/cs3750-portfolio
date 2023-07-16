@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import EmoteList from "./EmoteList";
 
-const ENDPOINT = "http://localhost:4000";
+const ENDPOINT = "http://localhost:5000";
 
 const Emotes = () => {
   const [emotes, setEmotes] = useState([]);
