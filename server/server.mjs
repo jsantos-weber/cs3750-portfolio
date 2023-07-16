@@ -20,47 +20,64 @@ function saltShaker(length) {
   }
   return salt;
 }
+function generateDeck() {
+  const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+  const ranks = [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "Jack",
+    "Queen",
+    "King",
+    "Ace",
+  ];
 
-// const suits = ["♠", "♣", "♥", "♦"];
-// const ranks = [
-//   "A",
-//   "2",
-//   "3",
-//   "4",
-//   "5",
-//   "6",
-//   "7",
-//   "8",
-//   "9",
-//   "10",
-//   "J",
-//   "Q",
-//   "K",
-// ];
-// function generateDeck() {
-//    const deck = [];
+  // Create the deck by combining suits and ranks
+  const deck = [];
+  for (const suit of suits) {
+    for (const rank of ranks) {
+      deck.push({ suit, rank });
+    }
+  }
 
-//    for (let suit of suits) {
-//      for (let rank of ranks) {
-//        deck.push({ suit, rank });
-//      }
-//    }
+  // Shuffle the deck using Fisher-Yates shuffle
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
 
-//    // Shuffle the deck using Fisher-Yates algorithm
-//    for (let i = deck.length - 1; i > 0; i--) {
-//      const j = Math.floor(Math.random() * (i + 1));
-//      [deck[i], deck[j]] = [deck[j], deck[i]];
-//    }
+  return deck;
+}
 
-//    return deck;
-// }
+function splitDeck(deck) {
+  // Split the deck into 4 piles (arrays)
+  const piles = [[], [], [], []];
+  for (let i = 0; i < deck.length; i++) {
+    const pileIndex = i % 4;
+    piles[pileIndex].push(deck[i]);
+  }
 
-// app.get("/deck", (req, res) => {
-//   const deck = generateDeck(); // Generate the deck of cards
+  return piles;
+}
 
-//   // Return the deck as the API response
-//   res.json(deck);
-// });
+// Usage example:
+
+app.get("/deck", (req, res) => {
+  const deck = generateDeck();
+  const piles = splitDeck(deck);
+console.log("Pile 1:", piles[0]);
+console.log("Pile 2:", piles[1]);
+console.log("Pile 3:", piles[2]);
+console.log("Pile 4:", piles[3]);
+  // Return the deck as the API response
+  res.json(piles);
+});
 
 app.get("/", (req, res) => res.send("Hello, World!"));
 app.get("/salt", (req, res) => res.send(saltShaker(8)));
