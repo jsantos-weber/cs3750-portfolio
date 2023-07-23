@@ -4,15 +4,26 @@ import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
 import http from 'http'
 import { Server as socketIOServer } from 'socket.io';
+const app = express();
+app.use(express.json());
+app.use(cors({
+   origin: "http://localhost:4000",
+    credentials: true }));
+
+
 
 const PORT = process.env.PORT || 4000;
 const PORT2 = process.env.PORT || 5000;
-const app = express();
-const server = http.createServer(app);
-const io = new socketIOServer(server);
 
-app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const server = http.createServer(app);
+const io = new socketIOServer(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+
 
 
 const emotes = [
@@ -23,7 +34,7 @@ const emotes = [
 
 
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log(`User connected:', ${socket.id}`);
 
   socket.on('emote', (emoteId) => {
     const emote = emotes.find((e) => e.id === emoteId);
@@ -38,9 +49,8 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT2, () => {
-  console.log(`Server listening on port ${PORT2}`);
+  console.log(`WebSocket server is running on port ${PORT2}`);
 });
-
 function saltShaker(length) {
   let salt = "";
   const characters =
