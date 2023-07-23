@@ -1,35 +1,36 @@
 import React, { useEffect, useState } from "react";
-import socketIOClient from "socket.io-client";
-import EmoteList from "./EmoteList";
+import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000";
+const socket = io("http://localhost:5000");
 
 const Emotes = () => {
   const [emotes, setEmotes] = useState([]);
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-
-    socket.on("emote", (emote) => {
-      // Update the emotes state when a new emote is received from the server
+    // Listen for the 'emoteUpdate' event from the backend
+    socket.on("initialEmotes", (emote) => {
+      console.log(emote);
       setEmotes((prevEmotes) => [...prevEmotes, emote]);
     });
 
+    socket.on("emote", (emote) => {
+      setEmotes((prevEmotes) => [...prevEmotes, emote]);
+    });
+
+    // Clean up the socket connection when the component unmounts
     return () => {
-      socket.disconnect(); // Cleanup the socket on unmount
+      //socket.disconnect();
     };
   }, []);
 
-  const handleEmoteClick = (emoteId) => {
-    // Send the selected emote ID to the backend server
-    const socket = socketIOClient(ENDPOINT);
-    socket.emit("emote", emoteId);
-  };
-
   return (
     <div>
-      <h1>Emote App</h1>
-      <EmoteList emotes={emotes} onEmoteClick={handleEmoteClick} />
+      <h1>Emotes</h1>
+      <ul>
+        {emotes.map((emote, index) => (
+          <li key={index}>{emote}</li>
+        ))}
+      </ul>
     </div>
   );
 };

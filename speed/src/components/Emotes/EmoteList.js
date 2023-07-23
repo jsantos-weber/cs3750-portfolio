@@ -2,6 +2,8 @@ import React from "react";
 import EmoteButton from "./EmoteButton";
 
 const EmoteList = ({ emotes, onEmoteClick }) => {
+  console.log(emotes);
+  console.log("Here")
   return (
     <div>
       <h2>Choose an emote:</h2>
