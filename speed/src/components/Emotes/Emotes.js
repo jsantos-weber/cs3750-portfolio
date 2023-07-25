@@ -5,7 +5,6 @@ const socket = io("http://localhost:5000");
 
 const Emotes = () => {
   useEffect(() => {
-    // Clean up function for disconnection when the component unmounts.
     return () => {
       //socket.disconnect();
     };
@@ -16,7 +15,7 @@ const Emotes = () => {
     const emotes = [
       { id: 1, name: 'Happy', emoji: '😄' },
       { id: 2, name: 'Sad', emoji: '😢' },
-      // Add more emotes as needed
+     
     ];
 
     const emote = emotes.find((e) => e.id === emoteId);
@@ -32,7 +31,7 @@ const Emotes = () => {
       <div>
         <button onClick={() => handleButtonClick(1)}>Happy</button>
         <button onClick={() => handleButtonClick(2)}>Sad</button>
-        {/* Add more buttons for other emotes as needed */}
+       
       </div>
     </div>
   );
