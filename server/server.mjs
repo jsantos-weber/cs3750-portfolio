@@ -7,7 +7,7 @@ import { Server as socketIOServer } from 'socket.io';
 const app = express();
 app.use(express.json());
 app.use(cors({
-   origin: "http://localhost:4000",
+   origin: "http://localhost:3000",
     credentials: true }));
 
 
@@ -18,7 +18,7 @@ const PORT2 = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = new socketIOServer(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
   },
 });
@@ -29,16 +29,18 @@ const io = new socketIOServer(server, {
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
   { id: 2, name: 'Sad', emoji: '😢' },
-  // Add more emotes as needed
+
 ];
 
 
 io.on('connection', (socket) => {
   console.log(`User connected:', ${socket.id}`);
-
+  
   socket.on('emote', (emoteId) => {
+    
     const emote = emotes.find((e) => e.id === emoteId);
     if (emote) {
+      console.log(emote);
       io.emit('emote', emote); // Broadcast the emote to all connected clients
     }
   });
