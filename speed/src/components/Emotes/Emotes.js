@@ -15,9 +15,9 @@ const Emotes = () => {
       setEmotes((prevEmotes) => [...prevEmotes, emote]);
     });
 
-    return () => {
-      socket.disconnect(); // Cleanup the socket on unmount
-    };
+    // return () => {
+    //   socket.disconnect(); // Cleanup the socket on unmount
+    // };
   }, []);
 
   const handleEmoteClick = (emoteId) => {

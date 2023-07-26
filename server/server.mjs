@@ -4,27 +4,26 @@ import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
 import http from 'http'
 import { Server as socketIOServer } from 'socket.io';
+import { MongoClient } from 'mongodb';
+
 const app = express();
 app.use(express.json());
 app.use(cors({
-   origin: "http://localhost:4000",
+   origin: "http://localhost:3000",
     credentials: true }));
-
-
 
 const PORT = process.env.PORT || 4000;
 const PORT2 = process.env.PORT || 5000;
 
 const server = http.createServer(app);
-const io = new socketIOServer(server, {
-  cors: {
+const io = new socketIOServer(server, 
+{
+  cors: 
+  {
     origin: "http://localhost:3000",
     credentials: true,
   },
 });
-
-
-
 
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
@@ -46,6 +45,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
+
 });
 
 server.listen(PORT2, () => {
@@ -188,3 +188,12 @@ app.post("/hello", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
+
+
+// API endpoint to get data
+    app.get('/Chat', (req, res) => {
+
+      let collection = db.collection("jsonExample");
+      let results = collection.find().toArray();
+      res.send(results).status(200);
+    });
