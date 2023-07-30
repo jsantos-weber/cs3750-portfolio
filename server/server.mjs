@@ -197,9 +197,9 @@ app.listen(PORT, () => {
 
 
 // API endpoint to get data
-    app.get('/Chat', (req, res) => {
+    app.get('/Chat', async (req, res) => {
 
-      let collection = db.collection("jsonExample");
-      let results = collection.find().toArray();
+      let collection = await db.collection("jsonExample");
+      let results = await collection.find().toArray();
       res.send(results).status(200);
     });
