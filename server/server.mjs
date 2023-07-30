@@ -25,6 +25,7 @@ const io = new socketIOServer(server,
   },
 });
 
+
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
   { id: 2, name: 'Sad', emoji: '😢' },
@@ -34,15 +35,18 @@ const emotes = [
 
 io.on('connection', (socket) => {
   console.log(`User connected:', ${socket.id}`);
+
   
-  socket.on('emote', (emoteId) => {
+  // socket.on('emote', (emoteId) => {
     
-    const emote = emotes.find((e) => e.id === emoteId);
-    if (emote) {
-      console.log(emote);
-      io.emit('emote', emote); // Broadcast the emote to all connected clients
-    }
-  });
+  //   const emote = emotes.find((e) => e.id === emoteId);
+  //   if (emote) {
+  //     console.log(emote);
+  //     io.emit('emote', emote); // Broadcast the emote to all connected clients
+  //   }
+  // });
+
+  socket.on('emote', (emote) => handleEmote(emote, socket.id));
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
