@@ -13,6 +13,22 @@
   }
 }
 
+.chat-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+
+
+.messages {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

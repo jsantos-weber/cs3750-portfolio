@@ -23,7 +23,7 @@ const io = new socketIOServer(server, {
   },
 });
 
-
+const users = {}
 
 
 const emotes = [
@@ -35,7 +35,12 @@ const emotes = [
 
 io.on('connection', (socket) => {
   console.log(`User connected:', ${socket.id}`);
-  
+  socket.on('new user', name => {
+    users[socket.id] = name
+    socket.broadcast.emit('user-connected', name)
+  })
+
+
   socket.on('emote', (emoteId) => {
     
     const emote = emotes.find((e) => e.id === emoteId);
@@ -44,6 +49,7 @@ io.on('connection', (socket) => {
       io.emit('emote', emote); // Broadcast the emote to all connected clients
     }
   });
+  
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
