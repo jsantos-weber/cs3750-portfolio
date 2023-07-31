@@ -4,26 +4,28 @@ import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
 import http from 'http'
 import { Server as socketIOServer } from 'socket.io';
+import { MongoClient } from 'mongodb';
+
 const app = express();
 app.use(express.json());
 app.use(cors({
    origin: "http://localhost:3000",
     credentials: true }));
 
-
-
 const PORT = process.env.PORT || 4000;
 const PORT2 = process.env.PORT || 5000;
 
 const server = http.createServer(app);
-const io = new socketIOServer(server, {
-  cors: {
-    origin: "*",
+const io = new socketIOServer(server, 
+{
+  cors: 
+  {
+    origin: "http://localhost:3000",
     credentials: true,
   },
 });
 
-const users = {}
+
 
 
 const emotes = [
@@ -35,12 +37,7 @@ const emotes = [
 
 io.on('connection', (socket) => {
   console.log(`User connected:', ${socket.id}`);
-  socket.on('new user', name => {
-    users[socket.id] = name
-    socket.broadcast.emit('user-connected', name)
-  })
-
-
+  
   socket.on('emote', (emoteId) => {
     
     const emote = emotes.find((e) => e.id === emoteId);
@@ -49,11 +46,11 @@ io.on('connection', (socket) => {
       io.emit('emote', emote); // Broadcast the emote to all connected clients
     }
   });
-  
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
+
 });
 
 server.listen(PORT2, () => {
@@ -196,3 +193,12 @@ app.post("/hello", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
+
+
+// API endpoint to get data
+    app.get('/Chat', async (req, res) => {
+
+      let collection = await db.collection("jsonExample");
+      let results = await collection.find().toArray();
+      res.send(results).status(200);
+    });
