@@ -31,7 +31,16 @@ const io = new socketIOServer(server,
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
   { id: 2, name: 'Sad', emoji: '😢' },
-
+  { id: 3, name: 'Fireworks', emoji: '🎆' },
+  { id: 4, name: 'Slot Machine', emoji: '🎰' },
+  { id: 5, name: 'Joker', emoji: '🃏' },
+  { id: 6, name: 'Pointing Up', emoji: '☝️' },
+  { id: 7, name: 'Skull', emoji: '💀' },
+  { id: 8, name: 'Nerd', emoji: '🤓' },
+  { id: 9, name: 'Eyes', emoji: '👀' },
+  
+ 
+ 
 ];
 
 
