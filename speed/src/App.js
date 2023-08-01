@@ -1,18 +1,18 @@
 import "./App.css";
-import HelloWorld from "./components/HelloWorld";
-import SpeedNavbar from "./components/SpeedNavbar";
-import Deck from "./components/Deck";
-import Emotes from "./components/Emotes/Emotes";
-import Chat from "./components/Chat.js";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ReactDOM from "react-dom/client";
+import HomePage from "./Pages/Home";
 
 function App() {
   return (
     <div>
-      <SpeedNavbar />
-      <HelloWorld />
-      <Deck />
-      <Emotes />
-      <Chat />
+      <Routes>
+        <Route path="" element={<HomePage />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Routes>
     </div>
   );
 }
