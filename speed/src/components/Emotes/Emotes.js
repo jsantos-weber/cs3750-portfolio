@@ -53,7 +53,7 @@ const Emotes = () => {
           ))}
         </div>
       </div>
-      <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <button onClick={() => handleButtonClick(1)}>Happy</button>
         <button onClick={() => handleButtonClick(2)}>Sad</button>
         <button onClick={() => handleButtonClick(3)}>Fireworks</button>
