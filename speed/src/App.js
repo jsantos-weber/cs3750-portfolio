@@ -4,6 +4,13 @@ import Register from "./Pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import HomePage from "./Pages/Home";
+import HelloWorld from "./components/HelloWorld";
+import SpeedNavbar from "./components/SpeedNavbar";
+import Deck from "./components/Deck";
+import Emotes from "./components/Emotes/Emotes";
+import Chat from "./components/Chat.js";
+import { Gamelobby } from "./components/Gamelobby";
+import MessageComponent from "./components/MessageComponent";
 
 function App() {
   return (
