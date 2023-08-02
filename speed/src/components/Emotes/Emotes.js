@@ -4,25 +4,27 @@ import io from "socket.io-client";
 const socket = io("http://localhost:5000");
 
 const Emotes = () => {
+  
   useEffect(() => {
-    return () => {
-      //socket.disconnect();
-    };
+    return () => {socket.disconnect();};
   }, []);
 
   // Function to send an event to the backend when a button is clicked.
-  const handleButtonClick = (emoteId) => {
-    const emotes = [
+  const handleButtonClick = (emoteId) => 
+  {
+    const emotes = 
+    [
       { id: 1, name: 'Happy', emoji: '😄' },
-      { id: 2, name: 'Sad', emoji: '😢' },
-     
+      { id: 2, name: 'Sad', emoji: '😢' }, 
     ];
 
     const emote = emotes.find((e) => e.id === emoteId);
-    if (emote) {
+    if (emote) 
+    {
       console.log(`Button ${emote.name} Clicked - Emoji: ${emote.emoji}`);
       socket.emit('emote', emoteId); // Emit the emote ID to the backend
     }
+    
   };
 
   return (

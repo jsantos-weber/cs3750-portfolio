@@ -5,17 +5,17 @@ const Chat = () =>
 {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => 
+  {
     // Fetch data from the backend API
     axios.get('http://localhost:4000/Chat')
     .then((response) => {setData(response.data);})
-    .catch((error) => {console.error('Error fetching data from API:', error);
-});}, []);
+    .catch((error) => {console.error('Error fetching data from API:', error);});
+  }, []);
 
   return (
     <div>
-      {/* Display your data here */}
-      <div>{JSON.stringify(data)}</div>
+      <div>This is where JSON SHOULD appear: {JSON.stringify(data)}</div>
     </div>
   );
 };

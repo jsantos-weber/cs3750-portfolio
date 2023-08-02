@@ -4,6 +4,8 @@ import SpeedNavbar from "./components/SpeedNavbar";
 import Deck from "./components/Deck";
 import Emotes from "./components/Emotes/Emotes";
 import Chat from "./components/Chat.js";
+import { Gamelobby } from "./components/Gamelobby";
+import MessageComponent from "./components/MessageComponent";
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <Deck />
       <Emotes />
       <Chat />
+      <Gamelobby/>
     </div>
   );
 }
