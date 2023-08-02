@@ -62,8 +62,8 @@ const Login = () => {
 
         if (res.data.loggedIn) {
           console.log("Logged in!");
-          // If they are logged in, this will navigate them to the logged in page
-          navigate("/loggedin", { replace: true });
+          // If they are logged in, this will navigate them to the home page
+          navigate("/", { replace: true });
         }
         if (!res.data.loggedIn) {
           alert("Passwords don't match!");

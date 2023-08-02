@@ -4,7 +4,6 @@ import "./loadEnvironment.mjs";
 import db from "./db/conn.mjs";
 import http from 'http'
 import { Server as socketIOServer } from 'socket.io';
-import { MongoClient } from 'mongodb';
 
 const app = express();
 app.use(express.json());

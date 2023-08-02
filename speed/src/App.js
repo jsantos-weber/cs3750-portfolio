@@ -4,6 +4,7 @@ import Register from "./Pages/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import HomePage from "./Pages/Home";
+import PlayPage from "./Pages/Play";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="" element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="play" element={<PlayPage />} />
       </Routes>
     </div>
   );
