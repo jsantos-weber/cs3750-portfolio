@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-
+import Emotes from "./Emotes/Emotes";
 
 const HelloWorld = () => {
   const [display, setDisplay] = useState(false);
@@ -35,7 +35,7 @@ const HelloWorld = () => {
   return (
     <div>
       <button onClick={handleSubmit}>Click Me</button>
-      
+      <Emotes />
       {display && <p>{message}</p>}
     </div>
   );
