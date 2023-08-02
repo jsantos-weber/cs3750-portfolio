@@ -26,8 +26,6 @@ const io = new socketIOServer(server,
 });
 
 
-
-
 const emotes = [
   { id: 1, name: 'Happy', emoji: '😄' },
   { id: 2, name: 'Sad', emoji: '😢' },
@@ -38,14 +36,11 @@ const emotes = [
   { id: 7, name: 'Skull', emoji: '💀' },
   { id: 8, name: 'Nerd', emoji: '🤓' },
   { id: 9, name: 'Eyes', emoji: '👀' },
-  
- 
- 
 ];
 
+let users = [];
 
 io.on('connection', (socket) => {
-  console.log(`User connected:', ${socket.id}`);
   
   socket.on('emote', (emoteId) => {
     
@@ -55,6 +50,28 @@ io.on('connection', (socket) => {
       io.emit('emote', emote); // Broadcast the emote to all connected clients
     }
   });
+
+  socket.emit('message', "Welcome to the chat room!");
+
+  socket.on("joinRoom", (roomID) => {
+    // Join the new room
+    socket.join(roomID);
+    socket.roomID = roomID;
+
+    // Notify the user that they've joined the room
+    socket.emit("message", `You have joined room ${roomID}`);
+
+    // Broadcast to others in the room that a new user has joined
+    socket.to(roomID).emit("message", "A new user has joined the room");
+
+    // Save the user in the users array
+    users.push({ socketId: socket.id, roomID });
+  });
+
+socket.on("message", (message) => {
+  socket.to(socket.roomID).emit("message", message);
+});
+
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
