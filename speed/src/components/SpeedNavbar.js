@@ -14,6 +14,7 @@ const SpeedNavbar = () => {
           <Nav.Link href="Login">Login</Nav.Link>
           <Nav.Link href="Register">Register</Nav.Link>
           <Nav.Link href="How-To-Play">How-to-Play</Nav.Link>
+          <Nav.Link href="deck">Deck</Nav.Link>
           <Nav.Link href="Scores">Scores</Nav.Link>
         </Nav>
       </Container>

@@ -11,6 +11,7 @@ import Emotes from "./components/Emotes/Emotes";
 import { Gamelobby } from "./components/Gamelobby";
 import MessageComponent from "./components/MessageComponent";
 import PlayPage from "./Pages/Play";
+import DeckPage from "./Pages/Deck";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="play" element={<PlayPage />} />
+        <Route path="deck" element={<DeckPage />} />
       </Routes>
     </div>
   );
