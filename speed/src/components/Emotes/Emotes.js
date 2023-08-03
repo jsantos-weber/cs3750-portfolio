@@ -38,6 +38,7 @@ const Emotes = () => {
       socket.emit('emote', emoteId); // Emit the emote ID to the backend
       //setMessages((prevMessages) => [...prevMessages, emote]);
     }
+    
   };
   const handleEmoteReceived = (emote) => {
     setMessages((prevMessages) => [...prevMessages, emote]);
