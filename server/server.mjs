@@ -140,66 +140,107 @@ function saltShaker(length) {
   return salt;
 }
 
-function generateDeck() {
-  const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
-  const ranks = [
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "Jack",
-    "Queen",
-    "King",
-    "Ace",
-  ];
+// function generateDeck() {
+//   const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
+//   const ranks = [
+//     "2",
+//     "3",
+//     "4",
+//     "5",
+//     "6",
+//     "7",
+//     "8",
+//     "9",
+//     "10",
+//     "Jack",
+//     "Queen",
+//     "King",
+//     "Ace",
+//   ];
 
-  // Create the deck by combining suits and ranks
- const deck = [];
-  for (const suit of suits) {
-    for (const rank of ranks) {
-      deck.push({ suit, rank });
-    }
-  }
+//   // Create the deck by combining suits and ranks
+//  const deck = [];
+//   for (const suit of suits) {
+//     for (const rank of ranks) {
+//       deck.push({ suit, rank });
+//     }
+//   }
 
-  // Shuffle the deck 
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
+//   // Shuffle the deck 
+//   for (let i = deck.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [deck[i], deck[j]] = [deck[j], deck[i]];
+//   }
 
-  return deck;
-}
+//   return deck;
+// }
 
-function splitDeck(deck) {
-  // Split the deck into 4 piles (arrays)
-  const piles = [[], [], [], []];
-  for (let i = 0; i < deck.length; i++) {
-    const pileIndex = i % 4;
-    piles[pileIndex].push(deck[i]);
-  }
+// let player1Pile = [];
+// let player2Pile = [];
+// function splitDeck(deck) {
+//   // // Split the deck into 4 piles (arrays)
+//   // const piles = [[], [], [], []];
+//   // for (let i = 0; i < deck.length; i++) {
+//   //   const pileIndex = i % 4;
+//   //   piles[pileIndex].push(deck[i]);
+//   // }
+//   // // 2 5-card piles for players
+//   //   let player1 = [];
+//   //   let player2 = [];
+//   // // 2 15-card piles for the piles
+//   //   let player1Side = [];
+//   //   let player2Side = [];
+//   // // 2 1-card piles
+//   //   let player1Down = [];
+//   //   let player2Down = [];
+//   // // 2 5-card piles
+//   // let player1Stuck = [];
+//   // let player2Stuck = [];
 
-  return piles;
-}
+//   // player1 = deck.slice(0, 5);
+//   // player2 = deck.slice(5, 10);
+//   // player1Side = deck.slice(10, 25);
+//   // player2Side = deck.slice(25, 40);
+//   // player1Down = deck.slice(40, 41);
+//   // player2Down = deck.slice(41, 42);
+//   // player1Stuck = deck.slice(42, 47);
+//   // player2Stuck = deck.slice(47, 52);
+//   // const piles = ([[player1], [player2], [player1Side], [player2Side], [player1Down], [player2Down], [player1Stuck], [player2Stuck]])
+//   // return piles;
+
+//   const piles = [[], [], [], [], [], [], [], []]; // 8 piles in total
+
+//   // Distribute 4 piles with 5 cards each
+//   for (let i = 0; i < 4; i++) {
+//     piles[i] = deck.slice(i * 5, i * 5 + 5);
+//   }
+
+//   // Distribute 2 piles with 15 cards each
+//   piles[4] = deck.slice(20, 35);
+//   piles[5] = deck.slice(35, 50);
+
+//   // Distribute 2 piles with 1 card each
+//   piles[6] = deck.slice(50, 51);
+//   piles[7] = deck.slice(51, 52);
+
+//   // Set the piles for each player
+//   player1Pile = piles.slice(0, 4).concat(piles[6], piles[7]);
+//   player2Pile = piles.slice(4, 6).concat(piles[6], piles[7]);
+//   return player1Pile, player2Pile;
+// }
 
 // GET Requests
 app.get("/", (req, res) => res.send("Hello, World!"));
 app.get("/salt", (req, res) => res.send(saltShaker(8)));
 
-app.get("/deck", (req, res) => {
-  const deck = generateDeck();
-  const piles = splitDeck(deck);
-  console.log("Pile 1:", piles[0]);
-  console.log("Pile 2:", piles[1]);
-  console.log("Pile 3:", piles[2]);
-  console.log("Pile 4:", piles[3]);
-  // Return the deck as the API response
-  res.json(piles);
-});
+// app.get("/deck", (req, res) => {
+//   const deck = generateDeck();
+//   splitDeck(deck);
+//   res.json({
+//     player1Pile,
+//     player2Pile,
+//   });
+// });
 
 // POST Requests
 app.post("/loginWithSalt", async (req, res) => {
@@ -258,6 +299,83 @@ app.post("/hello", async (req, res) => {
     } else {
       res.send("Did not work").status(200);
     }
+  });
+});
+
+
+// Code for Shuffling and Dealing Cards
+// Initialize the card deck
+const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+const createDeck = () => {
+  const deck = [];
+  for (const suit of suits) {
+    for (const rank of ranks) {
+      deck.push({ suit, rank });
+    }
+  }
+  return deck;
+};
+
+const shuffle = (array) => {
+  // Function to shuffle an array
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+let deck = createDeck();
+
+// Shuffle the deck on server startup
+deck = shuffle(deck);
+
+// Piles for each player
+let player1Piles = [];
+let player2Piles = [];
+
+// Function to reset the piles
+const resetPiles = () => {
+  player1Piles = [];
+  player2Piles = [];
+};
+
+// Distribute cards to each player into the specified piles
+const distributeCards = () => {
+  // Reset the piles first
+  resetPiles();
+
+  const piles = [[], [], [], [], [], [], [], []]; // 8 piles in total
+
+  // Distribute 4 piles with 5 cards each
+  for (let i = 0; i < 4; i++) {
+    piles[i] = deck.slice(i * 5, i * 5 + 5);
+  }
+
+  // Distribute 2 piles with 15 cards each
+  piles[4] = deck.slice(20, 35);
+  piles[5] = deck.slice(35, 50);
+
+  // Distribute 2 piles with 1 card each
+  piles[6] = deck.slice(50, 51);
+  piles[7] = deck.slice(51, 52);
+
+  // Set the piles for each player
+  player1Piles = piles.slice(0, 4).concat(piles[6], piles[7]);
+  player2Piles = piles.slice(4, 6).concat(piles[6], piles[7]);
+};
+
+// Start the game and distribute cards
+distributeCards();
+
+// Endpoint to deal cards to each player
+app.get('/deal-cards', (req, res) => {
+  distributeCards();
+  res.json({
+    player1Piles,
+    player2Piles,
   });
 });
 
