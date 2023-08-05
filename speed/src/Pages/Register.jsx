@@ -62,6 +62,7 @@ const Register = () => {
       salt: salt,
       type: type,
     };
+    
     // axios request
     await axios
       .post("http://localhost:4000/account", user)

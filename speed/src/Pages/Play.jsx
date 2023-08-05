@@ -1,6 +1,10 @@
 import SpeedNavbar from "../components/SpeedNavbar";
 import React, { useState } from "react";
 import socketIOClient from "socket.io-client";
+<<<<<<< Updated upstream
+=======
+import MessageComponent from "../components/MessageComponent";
+>>>>>>> Stashed changes
 
 function PlayPage() {
   const [roomID, setRoomID] = useState("");
@@ -55,11 +59,20 @@ function PlayPage() {
       {roomID && socket && (
         <div>
           <div className="messages-container">
+<<<<<<< Updated upstream
             {messages.map((message, index) => (
               <div key={index} className="message">
                 {message}
               </div>
             ))}
+=======
+            {/* {messages.map((message, index) => (
+              <div key={index} className="message">
+                {message}
+              </div>
+            ))} */}
+            <MessageComponent/>
+>>>>>>> Stashed changes
           </div>
           <form onSubmit={handleMessageSubmit}>
             <input

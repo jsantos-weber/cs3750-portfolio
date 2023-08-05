@@ -1,13 +1,15 @@
 import {React, useState, useEffect } from 'react';
 import io from "socket.io-client";
 import axios from "axios";
+import MessageComponent from './MessageComponent';
 
 const socket = io("http://localhost:5000");
 
-export function Gamelobby()
+export default function Gamelobby()
 {
     const[lobbyRooms, setLobbyRooms] = useState([]);
     const [activeGame, setActiveGame] = useState(false);
+    const[gameStarted, setGameStarted] = useState(false);
 
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener fo lobby-rooms
     socket.on('start-game', () => {console.log("user has received startgame event"); setActiveGame(true)}); //when server, allows to start game
@@ -21,7 +23,8 @@ export function Gamelobby()
 
     const handleStartGameBtn = () => //Do this for users upon pressing 'start-game' button
     {
-
+        setGameStarted(true);
+        socket.emit('begin-game',socket.id);
     }
 
     const renderButtons = () => //displays all buttons.
@@ -51,7 +54,10 @@ export function Gamelobby()
     //Display for start game
     function showGame()
     {
-        return(<button onClick={()=>handleStartGameBtn}>Start Game</button>);
+        if(gameStarted === true)
+            return (<MessageComponent></MessageComponent>);
+        else
+            return(<button onClick={()=>handleStartGameBtn}>Start Game</button>);
     }
 
     return activeGame ? showGame() : showGameLobbies();

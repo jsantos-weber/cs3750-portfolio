@@ -50,8 +50,8 @@ io.on('connection', (socket) =>
   });
 
   socket.emit('message', "Welcome to the chat room!");
-
-  socket.on("joinRoom", (roomID) => {
+  socket.on("joinRoom", (roomID) => 
+  {
     // Join the new room
     socket.join(roomID);
     socket.roomID = roomID;
@@ -70,6 +70,7 @@ io.on('connection', (socket) =>
 
   ////GAME LOBBY////
     io.emit('lobby-rooms',lobbyRooms);
+
     //When player joins a game (selects a button)
     socket.on('join-game', (roomIndex) => 
     {
@@ -90,10 +91,11 @@ io.on('connection', (socket) =>
         lobbyRooms[roomIndex].player2 = socket.id; //set socketid as player 2.
         socket.emit('start-game')//sending back to sender a start-game event
         socket.to(lobbyRooms[roomIndex].player1).emit('start-game'); //emit to 1st player a start game event
+        socket.on('begin-game',socketId => {console.log('this user is ready' + socketId)});
       }
       else {console.log("lobbyroom[" + roomIndex + "] is at maximum players (2/2)");}
       
-      console.log(lobbyRooms)
+      console.log(lobbyRooms);
       io.emit('lobby-rooms',lobbyRooms);
     });
 
@@ -104,6 +106,7 @@ io.on('connection', (socket) =>
       io.emit('lobby-rooms',lobbyRooms);
     });
 
+    //When users press start game button
     socket.on("message", (message) => {socket.to(socket.roomID).emit("message", message);});
     socket.on('disconnect', () => {console.log('User disconnected:', socket.id);});
 });
