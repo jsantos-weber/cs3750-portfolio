@@ -5,6 +5,7 @@ const socket = io("http://localhost:5000");
 
 export default function Gamelobby()
 {
+    const [countdown, setCountdown] = useState(3);
     const[lobbyRooms, setLobbyRooms] = useState([]);
     const[displayIndex, setDisplayIndex] = useState(0);
     const[playersReady, setPlayersReady] = useState(0);
@@ -32,6 +33,26 @@ export default function Gamelobby()
         }
         return buttons;
     };
+    useEffect(() => {
+        let interval;
+    
+        if (displayIndex === 3 && countdown > 0) {
+          interval = setInterval(() => {
+            setCountdown((prevCountdown) => prevCountdown - 1);
+          }, 1000);
+        }
+    
+        return () => clearInterval(interval);
+      }, [displayIndex, countdown]);
+    
+      useEffect(() => {
+        if (countdown === 0 && displayIndex === 3) {
+          // The countdown has finished, do something when the game starts
+          // For example, start the game or navigate to the game screen
+          console.log("Game Started!");
+          // Add your code to start the game here
+        }
+      }, [countdown, displayIndex]);
 
     //Function that determines what is displayed to players
     function showDisplay()
@@ -53,8 +74,14 @@ export default function Gamelobby()
         else if(displayIndex === 2)
             return(<><div><button disabled={disableReadyBtn} onClick={handleReadyUp}>{disableReadyBtn ? "Waiting For Opponent" : "Ready Up"}</button>{playersReady}/2 Players ready</div></>);
         //3 = Game has Started
-        else if(displayIndex == 3)
-            return <><h2>GAME HAS BEGUN! Add Game Component Here Timer should execute now or something....</h2></>;
+        if (displayIndex === 3) {
+            return (
+              <div>
+                <h1>{countdown === 0 ? "Start!" : countdown}</h1>
+                {/* Add additional UI components for the game here */}
+              </div>
+            );
+          }
     }
     return showDisplay();
 }
