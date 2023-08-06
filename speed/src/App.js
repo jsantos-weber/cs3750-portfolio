@@ -11,11 +11,8 @@ import Emotes from "./components/Emotes/Emotes";
 import { Gamelobby } from "./components/Gamelobby";
 import MessageComponent from "./components/MessageComponent";
 import PlayPage from "./Pages/Play";
-<<<<<<< Updated upstream
 import DeckPage from "./Pages/Deck";
 
-=======
->>>>>>> Stashed changes
 function App() {
   return (
     <div>
@@ -23,12 +20,8 @@ function App() {
         <Route path="" element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-<<<<<<< Updated upstream
         <Route path="play" element={<PlayPage />} />
         <Route path="deck" element={<DeckPage />} />
-=======
-        <Route path="play" element={<PlayPage/>}/>
->>>>>>> Stashed changes
       </Routes>
     </div>
   );

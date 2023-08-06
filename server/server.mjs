@@ -50,6 +50,7 @@ io.on('connection', (socket) =>
   });
 
   socket.emit('message', "Welcome to the chat room!");
+
   socket.on("joinRoom", (roomID) => 
   {
     // Join the new room
@@ -66,43 +67,43 @@ io.on('connection', (socket) =>
     users.push({ socketId: socket.id, roomID });
   });
 
-
-
-  ////GAME LOBBY////
+  /****** Game Lobby Sockets *******/
     io.emit('lobby-rooms',lobbyRooms);
 
-    //When player joins a game (selects a button)
-    socket.on('join-game', (roomIndex) => 
+    //When player joins a room event (selects a button)
+    socket.on('join-room', (roomIndex) => 
     {
-      //If 0 players are in lobby
-      if(socket.id === lobbyRooms[roomIndex].player1 || socket.id === lobbyRooms[roomIndex].player2)
-      {
-        console.log(socket.id+" has already joined");
-      }
-      else if(lobbyRooms[roomIndex].playerCount <= 0) 
+      //If player has alredy joined room, log player has already joined and do nothing else.
+      if(socket.id === lobbyRooms[roomIndex].player1 || socket.id === lobbyRooms[roomIndex].player2) {console.log(socket.id+" has already joined");}
+      else if(lobbyRooms[roomIndex].playerCount <= 0) //if player joining is first to join room
       {
         lobbyRooms[roomIndex].playerCount++;  //increment player count
         lobbyRooms[roomIndex].player1 = socket.id; //set socketid as player 1.
       }
-      //Initiate game upon 2nd player joining
-      else if(lobbyRooms[roomIndex].playerCount < 2)//if 1 player is alredy in lobby and you are adding 2nd player
+      else if(lobbyRooms[roomIndex].playerCount < 2) //If joining player is 2nd player (lobby is now full) Initiate game upon 2nd player joining
       {
         lobbyRooms[roomIndex].playerCount++;  //increment player count
         lobbyRooms[roomIndex].player2 = socket.id; //set socketid as player 2.
-        socket.emit('start-game')//sending back to sender a start-game event
-        socket.to(lobbyRooms[roomIndex].player1).emit('start-game'); //emit to 1st player a start game event
-        socket.on('begin-game',socketId => {console.log('this user is ready' + socketId)});
+        socket.emit('Show-readyBtn')//sending back to sender to show 'ready up' btn
+        socket.to(lobbyRooms[roomIndex].player1).emit('Show-readyBtn'); //emit to 1st player to show 'ready up' btn
       }
-      else {console.log("lobbyroom[" + roomIndex + "] is at maximum players (2/2)");}
+      else {console.log("lobbyroom[" + roomIndex + "] is at maximum players (2/2)");} //If Lobby is already full. log and do nothing else
       
-      console.log(lobbyRooms);
-      io.emit('lobby-rooms',lobbyRooms);
+      console.log(lobbyRooms); //Log lobby rooms
+      io.emit('lobby-rooms',lobbyRooms);//notify all clients of updated lobby-room info
+    });
+
+    //When user presses ready-up button
+    socket.on("ready-up", (currRoomIndex) => 
+    {      
+      io.to(lobbyRooms[currRoomIndex].player1).emit('is-ready'); //emit to 1st player that someone has clicked 'ready-up'
+      io.to(lobbyRooms[currRoomIndex].player2).emit('is-ready'); //emit to 2nd player that someone has clicked 'ready-up'
     });
 
     //When user adds a game 
     socket.on('add-game', () => 
     {
-      lobbyRooms.push({key: lobbyRooms.length, playerCount: 0, player1: 'null', player2: 'null'});//Add lobby to lobbyRooms array   
+      lobbyRooms.push({key: lobbyRooms.length, playerCount: 0, player1: 'null', player2: 'null', playersReady: 0, });//Add lobby to lobbyRooms array   
       io.emit('lobby-rooms',lobbyRooms);
     });
 
@@ -111,19 +112,12 @@ io.on('connection', (socket) =>
     socket.on('disconnect', () => {console.log('User disconnected:', socket.id);});
 });
 
-
-
 // API endpoint to get data
 app.get('/Chat', async (req, res) => 
 {
   let collection = await db.collection("jsonExample");
   let results = await collection.find().toArray();
   res.send(results).status(200);
-});
-
-app.get('/Gamelobby', async(req,res) => 
-{
-  res.send(lobbyCount).status(200);
 });
 
 server.listen(PORT2, () => {
