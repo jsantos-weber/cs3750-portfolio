@@ -15,7 +15,13 @@ export default function Gamelobby()
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener for lobby-room count
     socket.on('Show-readyBtn', () => {setDisplayIndex(2)}); //Action listener to show ready-up button
     socket.on('is-ready', () => { setPlayersReady(playersReady+1); if(playersReady+1 === 2){setDisplayIndex(3)} }); //Action listeners for when either player readys up
-    socket.on('player-disconnected', () => setDisplayIndex(0));
+    socket.on('player-disconnected', () => 
+    {
+      setDisplayIndex(0);
+      setPlayersReady(0);
+      setRoomIndex(-1);
+      setDisableReadyBtn(false);
+    });
     
 
     const handleCreateGameBtn = () => { socket.emit('add-game'); } //Notify backend to create game

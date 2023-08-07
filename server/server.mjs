@@ -116,9 +116,23 @@ io.on('connection', (socket) =>
       lobbyRooms.forEach(room => 
       {
         if(room.player1 == socket.id)
+        {
           io.to(room.player2).emit('player-disconnected');
+          room.playerCount = 0;
+          room.player1 = 'null',
+          room.player2 = 'null',
+          room.playersReady = 0;
+          io.emit('lobby-rooms',lobbyRooms);//notify all clients of updated lobby-room info
+        }
         else if (room.player2 == socket.id)
+        {
           io.to(room.player1).emit('player-disconnected');
+          room.playerCount = 0;
+          room.player1 = 'null',
+          room.player2 = 'null',
+          room.playersReady = 0;
+          io.emit('lobby-rooms',lobbyRooms);//notify all clients of updated lobby-room info
+        }
       });
     });
 });
