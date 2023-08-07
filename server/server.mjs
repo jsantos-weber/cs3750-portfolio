@@ -362,6 +362,8 @@ const distributeCards = () => {
   // Set the piles for each player
   player1Piles = piles.slice(0, 4).concat(piles[6], piles[7]);
   player2Piles = piles.slice(4, 6).concat(piles[6], piles[7]);
+
+  
 };
 
 // Start the game and distribute cards
