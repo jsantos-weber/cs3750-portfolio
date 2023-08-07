@@ -5,7 +5,7 @@ const socket = io("http://localhost:5000");
 
 export default function Gamelobby()
 {
-    const [countdown, setCountdown] = useState(3);
+    const[countdown, setCountdown] = useState(3);
     const[lobbyRooms, setLobbyRooms] = useState([]);
     const[displayIndex, setDisplayIndex] = useState(0);
     const[playersReady, setPlayersReady] = useState(0);
@@ -15,6 +15,8 @@ export default function Gamelobby()
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener for lobby-room count
     socket.on('Show-readyBtn', () => {setDisplayIndex(2)}); //Action listener to show ready-up button
     socket.on('is-ready', () => { setPlayersReady(playersReady+1); if(playersReady+1 === 2){setDisplayIndex(3)} }); //Action listeners for when either player readys up
+    socket.on('player-disconnected', () => setDisplayIndex(0));
+    
 
     const handleCreateGameBtn = () => { socket.emit('add-game'); } //Notify backend to create game
 
@@ -25,14 +27,12 @@ export default function Gamelobby()
     const renderButtons = () => //displays all buttons.
     {
         const buttons = [];
-        let showStartbtn = false; // Show start btn if user is in lobby and has 2 players
         for (let i = 0; i < lobbyRooms.length; i++) 
-        {
-            if(lobbyRooms[i].player1 === socket.id || lobbyRooms[i].player2 === socket.id) { showStartbtn = true;} //only allows players with correct socket.id's to see 'start-game' button
             buttons.push(<div><button key={i} onClick={ () => handleJoinRoomBtn({i})}> + Join Lobby Room {i + 1} </button> {lobbyRooms[i].playerCount}/2 Players</div>);
-        }
+        
         return buttons;
     };
+
     useEffect(() => {
         let interval;
     

@@ -109,7 +109,18 @@ io.on('connection', (socket) =>
 
     //When users press start game button
     socket.on("message", (message) => {socket.to(socket.roomID).emit("message", message);});
-    socket.on('disconnect', () => {console.log('User disconnected:', socket.id);});
+    socket.on('disconnect', () => 
+    {
+      console.log('User disconnected', socket.id);
+      
+      lobbyRooms.forEach(room => 
+      {
+        if(room.player1 == socket.id)
+          io.to(room.player2).emit('player-disconnected');
+        else if (room.player2 == socket.id)
+          io.to(room.player1).emit('player-disconnected');
+      });
+    });
 });
 
 // API endpoint to get data
