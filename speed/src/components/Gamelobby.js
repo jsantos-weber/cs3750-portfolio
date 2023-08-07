@@ -1,5 +1,6 @@
 import {React, useState, useEffect } from 'react';
 import io from "socket.io-client";
+import DeckPage from '../Pages/Deck';
 
 const socket = io("http://localhost:5000");
 
@@ -83,7 +84,7 @@ export default function Gamelobby()
         if (displayIndex === 3) {
             return (
               <div>
-                <h1>{countdown === 0 ? "Start!" : countdown}</h1>
+                <h1>{countdown === 0 ? <DeckPage /> : countdown}</h1>
                 {/* Add additional UI components for the game here */}
               </div>
             );

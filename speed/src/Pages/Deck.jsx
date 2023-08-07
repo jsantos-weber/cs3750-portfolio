@@ -22,12 +22,9 @@ function DeckPage() {
  };
 
 
-  //  "http://localhost:4000/deal-cards";
   console.log("Piles state:", piles); // Add this line for debugging
   return (
     <>
-      <SpeedNavbar />
-      <Deck />
       <div>
         <h2>Player 1 Piles</h2>
         {Array.isArray(piles.player1Piles) && piles.player1Piles.length > 0 ? (
