@@ -1,28 +1,26 @@
-import Deck from "../components/Deck";
-import SpeedNavbar from "../components/SpeedNavbar";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-function DeckPage() {
- const [piles, setPiles] = useState({ player1Piles: [], player2Piles: [] });
- const [loading, setLoading] = useState(false);
+function DeckPage(lobby, target) {
+  const [piles, setPiles] = useState({ player1Piles: [], player2Piles: [] });
+  const [loading, setLoading] = useState(false);
+  const lobbyRoom = lobby[target];
 
- const handleDealCards = () => {
-   setLoading(true);
-   axios
-     .get("http://localhost:4000/deal-cards")
-     .then((response) => {
-       setPiles(response.data);
-       setLoading(false);
-     })
-     .catch((error) => {
-       console.error(error);
-       setLoading(false);
-     });
- };
+  const handleDealCards = () => {
+    setLoading(true);
+    axios
+      .get("http://localhost:4000/deal-cards")
+      .then((response) => {
+        setPiles(response.data);
+        setLoading(false);
+        console.log(lobbyRoom);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+  };
 
-
-  console.log("Piles state:", piles); // Add this line for debugging
   return (
     <>
       <div>
@@ -67,6 +65,7 @@ function DeckPage() {
         <button onClick={handleDealCards}>Deal Cards</button>
         {loading && <div>Loading...</div>}
       </div>
+      <div>{lobbyRoom}</div>
     </>
   );
 }

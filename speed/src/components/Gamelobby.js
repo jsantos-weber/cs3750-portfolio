@@ -12,6 +12,8 @@ export default function Gamelobby()
     const[playersReady, setPlayersReady] = useState(0);
     const[roomIndex, setRoomIndex] = useState(-1);
     const[disableReadyBtn, setDisableReadyBtn] = useState(false);
+    const[player1Cards, setPlayer1Cards] = ([]);
+    const [player2Cards, setPlayer2Cards] = ([]);
 
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener for lobby-room count
     socket.on('Show-readyBtn', () => {setDisplayIndex(2)}); //Action listener to show ready-up button
@@ -57,6 +59,13 @@ export default function Gamelobby()
           // The countdown has finished, do something when the game starts
           // For example, start the game or navigate to the game screen
           console.log("Game Started!");
+          socket.emit('game-to-start', roomIndex);
+         socket.on("game-started", (player1Piles, player2Piles) => {
+          console.log(player1Piles)
+           //setPlayer1Cards(player1Piles);
+           console.log(player1Cards);
+           //setPlayer2Cards(player2Piles);
+         });
           // Add your code to start the game here
         }
       }, [countdown, displayIndex]);
@@ -84,7 +93,11 @@ export default function Gamelobby()
         if (displayIndex === 3) {
             return (
               <div>
-                <h1>{countdown === 0 ? <DeckPage /> : countdown}</h1>
+                <h1>
+                  {countdown === 0
+                    ? "Start"
+                    : countdown}
+                </h1>
                 {/* Add additional UI components for the game here */}
               </div>
             );
