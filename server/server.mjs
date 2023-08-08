@@ -70,6 +70,20 @@ io.on('connection', (socket) =>
   /****** Game Lobby Sockets *******/
     io.emit('lobby-rooms',lobbyRooms);
 
+
+
+
+
+    socket.on("game-started", (currRoomIndex) => {
+      distributeCards();
+      io.to(lobbyRooms[currRoomIndex].player1).emit('dealthand', player1Piles);
+      io.to(lobbyRooms[currRoomIndex].player2).emit('dealthand',player2Piles);
+      console.log("piles" + player1Piles);
+    });
+
+
+
+
     //When player joins a room event (selects a button)
     socket.on('join-room', (roomIndex) => 
     {
@@ -305,8 +319,6 @@ const distributeCards = () => {
   // Set the piles for each player
   player1Piles = piles.slice(0, 4).concat(piles[6], piles[7]);
   player2Piles = piles.slice(4, 6).concat(piles[6], piles[7]);
-
-  
 };
 
 // Endpoint to deal cards to each player
