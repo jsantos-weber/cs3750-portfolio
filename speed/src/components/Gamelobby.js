@@ -2,22 +2,13 @@ import {React, useState, useEffect } from 'react';
 import io from "socket.io-client";
 import axios from 'axios';
 import DeckPage from '../Pages/Deck';
+import ArrayDisplay from './ArrayDisplay';
+
 
 const socket = io("http://localhost:5000");
 
 export default function Gamelobby()
 {
-<<<<<<< Updated upstream
-    const[countdown, setCountdown] = useState(3);
-    const[lobbyRooms, setLobbyRooms] = useState([]);
-    const[displayIndex, setDisplayIndex] = useState(0);
-    const[playersReady, setPlayersReady] = useState(0);
-    const[roomIndex, setRoomIndex] = useState(-1);
-    const[disableReadyBtn, setDisableReadyBtn] = useState(false);
-    const[player1Cards, setPlayer1Cards] = ([]);
-    const [player2Cards, setPlayer2Cards] = ([]);
-
-=======
   const[countdown, setCountdown] = useState(3);
   const[lobbyRooms, setLobbyRooms] = useState([]);
   const[displayIndex, setDisplayIndex] = useState(0);
@@ -26,7 +17,6 @@ export default function Gamelobby()
   const[disableReadyBtn, setDisableReadyBtn] = useState(false);
   const[dealtHand,setDealtHand] = useState([]);
   
->>>>>>> Stashed changes
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener for lobby-room count
     socket.on('Show-readyBtn', () => {setDisplayIndex(2)}); //Action listener to show ready-up button
     socket.on('is-ready', () => { setPlayersReady(playersReady+1); if(playersReady+1 === 2)
@@ -36,7 +26,7 @@ export default function Gamelobby()
     }}); //Action listeners for when either player readys up
 
     //on dealt hand set dealt hand to display
-    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand); console.log("playerhand: " + playerHand[0]);});
+    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand); console.log("playerhand: " + playerHand);});
 
     socket.on('player-disconnected', () => 
     {
@@ -82,12 +72,12 @@ export default function Gamelobby()
           // For example, start the game or navigate to the game screen
           console.log("Game Started!");
           socket.emit('game-to-start', roomIndex);
-         socket.on("game-started", (player1Piles, player2Piles) => {
-          console.log(player1Piles)
-           //setPlayer1Cards(player1Piles);
-           console.log(player1Cards);
-           //setPlayer2Cards(player2Piles);
-         });
+            socket.on("game-started", (player1Piles, player2Piles) => {
+            console.log(player1Piles)
+            //setPlayer1Cards(player1Piles);
+            console.log(player1Cards);
+            //setPlayer2Cards(player2Piles);
+          });
           // Add your code to start the game here
         }
       }, [countdown, displayIndex]);
@@ -113,47 +103,16 @@ export default function Gamelobby()
         else if(displayIndex === 2)
             return(<><div><button disabled={disableReadyBtn} onClick={handleReadyUp}>{disableReadyBtn ? "Waiting For Opponent" : "Ready Up"}</button>{playersReady}/2 Players ready</div></>);
         //3 = Game has Started
-<<<<<<< Updated upstream
-        if (displayIndex === 3) {
-            return (
-              <div>
-                <h1>
-                  {countdown === 0
-                    ? "Start"
-                    : countdown}
-                </h1>
-                {/* Add additional UI components for the game here */}
-              </div>
-            );
-          }
-    }
-=======
-        if (displayIndex === 3) 
+        if (displayIndex === 3)
         {
-          return <> returned nothing </>;
-        //   return (<div>{Array.isArray(piles.player1Piles) && piles.player1Piles.length > 0 ? (
-          
-        //     piles.player1Piles.map((pile, pileIndex) => (
-        //     <div key={pileIndex}>
-        //       Pile {pileIndex + 1}:{" "}
-        //       {Array.isArray(pile) ? (
-        //         pile.map((card, cardIndex) => (
-        //           <span key={cardIndex}>
-        //             {card.rank} of {card.suit} |{" "}
-        //           </span>
-        //         ))
-        //       ) : (
-        //         <span>Invalid pile data</span>
-        //       )}
-        //     </div>
-        //   ))
-        // ) : (
-        //   <div>No piles available for Player 1</div>
-        // )};</div>);
+             return (
+              <div>
+                <h1>React Array Display</h1>
+                <ArrayDisplay items={dealtHand} />
+              </div>
+               );
         }
-        //4 = If display lobby is ready to display cards display correct deck to correct player
-      }
->>>>>>> Stashed changes
+    }
     return showDisplay();
 }
 
