@@ -1,9 +1,5 @@
 import {React, useState, useEffect } from 'react';
 import io from "socket.io-client";
-import axios from 'axios';
-import DeckPage from '../Pages/Deck';
-import ArrayDisplay from './ArrayDisplay';
-
 
 const socket = io("http://localhost:5000");
 
@@ -35,9 +31,6 @@ export default function Gamelobby()
       setRoomIndex(-1);
       setDisableReadyBtn(false);
     });
-
-    socket.on('')
-    
 
     const handleCreateGameBtn = () => { socket.emit('add-game'); } //Notify backend to create game
 
@@ -71,13 +64,7 @@ export default function Gamelobby()
           // The countdown has finished, do something when the game starts
           // For example, start the game or navigate to the game screen
           console.log("Game Started!");
-          socket.emit('game-to-start', roomIndex);
-            socket.on("game-started", (player1Piles, player2Piles) => {
-            console.log(player1Piles)
-            //setPlayer1Cards(player1Piles);
-            console.log(player1Cards);
-            //setPlayer2Cards(player2Piles);
-          });
+         console.log(dealtHand);
           // Add your code to start the game here
         }
       }, [countdown, displayIndex]);
@@ -103,16 +90,18 @@ export default function Gamelobby()
         else if(displayIndex === 2)
             return(<><div><button disabled={disableReadyBtn} onClick={handleReadyUp}>{disableReadyBtn ? "Waiting For Opponent" : "Ready Up"}</button>{playersReady}/2 Players ready</div></>);
         //3 = Game has Started
-        if (displayIndex === 3)
+        if (displayIndex === 3) 
         {
-             return (
-              <div>
-                <h1>React Array Display</h1>
-                <ArrayDisplay items={dealtHand} />
-              </div>
-               );
+          return (
+              dealtHand.map( (pile, pileIndex) => 
+              (
+                <div key={pileIndex}> Pile {pileIndex + 1 + " [Length="+ pile.length +"] ---- "} 
+                {Array.isArray(pile) ? (pile.map((card, cardIndex) => (<span key={cardIndex}> {card.rank} of {card.suit} | {" "}</span>))) : (<span>Invalid pile data</span>)}
+                </div>
+              ))
+          );
         }
-    }
+      }
     return showDisplay();
 }
 
