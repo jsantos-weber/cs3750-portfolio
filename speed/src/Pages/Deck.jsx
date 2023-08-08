@@ -6,7 +6,6 @@ function DeckPage(lobby, target) {
   const [loading, setLoading] = useState(false);
   const lobbyRoom = lobby[target];
 
-<<<<<<< Updated upstream
   const handleDealCards = () => {
     setLoading(true);
     axios
@@ -21,22 +20,6 @@ function DeckPage(lobby, target) {
         setLoading(false);
       });
   };
-=======
- const handleDealCards = () => {
-   setLoading(true);
-   axios
-     .get("http://localhost:4000/deal-cards")
-     .then((response) => {
-       setPiles(response.data);
-        
-       setLoading(false);
-     })
-     .catch((error) => {
-       console.error(error);
-       setLoading(false);
-     });
- };
->>>>>>> Stashed changes
 
   return (
     <>
