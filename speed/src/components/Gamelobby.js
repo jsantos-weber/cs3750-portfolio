@@ -24,7 +24,7 @@ export default function Gamelobby()
     }}); //Action listeners for when either player readys up
 
     //on dealt hand set dealt hand to display
-    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand); console.log("playerhand: " + playerHand);});
+    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand)});
 
     socket.on('player-disconnected', () => 
     {
@@ -69,7 +69,7 @@ export default function Gamelobby()
           // The countdown has finished, do something when the game starts
           // For example, start the game or navigate to the game screen
           console.log("Game Started!");
-         
+         console.log(dealtHand);
           // Add your code to start the game here
         }
       }, [countdown, displayIndex]);
@@ -100,26 +100,20 @@ export default function Gamelobby()
           
           return (
             <div>
-              {Array.isArray(playerHand.player1Piles) &&
-              piles.player1Piles.length > 0 ? (
-                piles.player1Piles.map((pile, pileIndex) => (
-                  <div key={pileIndex}>
-                    Pile {pileIndex + 1}:{" "}
-                    {Array.isArray(pile) ? (
-                      pile.map((card, cardIndex) => (
-                        <span key={cardIndex}>
-                          {card.rank} of {card.suit} |{" "}
-                        </span>
-                      ))
-                    ) : (
-                      <span>Invalid pile data</span>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div>No piles available for Player 1</div>
-              )}
-              ;
+              {dealtHand.map((pile, pileIndex) => (
+                <div key={pileIndex}>
+                  Pile {pileIndex + 1}:{" "}
+                  {Array.isArray(pile) ? (
+                    pile.map((card, cardIndex) => (
+                      <span key={cardIndex}>
+                        {card.rank} of {card.suit} |{" "}
+                      </span>
+                    ))
+                  ) : (
+                    <span>Invalid pile data</span>
+                  )}
+                </div>
+              ))}
             </div>
           );
         }

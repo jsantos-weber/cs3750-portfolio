@@ -147,9 +147,8 @@ io.on('connection', (socket) =>
 
   socket.on("game-started", (currRoomIndex) => {
     distributeCards();
-    //io.to(lobbyRooms[currRoomIndex].player1).emit('dealthand', {player1Piles});
-    // io.to(lobbyRooms[currRoomIndex].player2).emit('dealthand',player2Piles);
-    console.log(player1Piles);
+    io.to(lobbyRooms[currRoomIndex].player1).emit('dealthand', player1Piles);
+    io.to(lobbyRooms[currRoomIndex].player2).emit('dealthand',player2Piles);
   });
 
   //When player joins a room event (selects a button)

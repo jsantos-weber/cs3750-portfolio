@@ -11,7 +11,7 @@ function HomePage() {
     <SpeedNavbar />
     <HelloWorld />
     <Deck />
-    <Chat />
+    {/* <Chat /> */}
     <Gamelobby/>
     </>
   );
