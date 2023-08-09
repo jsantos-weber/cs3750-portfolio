@@ -15,6 +15,7 @@ export default function Gamelobby()
   const[disableReadyBtn, setDisableReadyBtn] = useState(false);
   const[dealtHand,setDealtHand] = useState([]);
   
+  
     socket.on('lobby-rooms', (lobbyArrays) => {setLobbyRooms(lobbyArrays);}); //Action listener for lobby-room count
     socket.on('Show-readyBtn', () => {setDisplayIndex(2)}); //Action listener to show ready-up button
     socket.on('is-ready', () => { setPlayersReady(playersReady+1); if(playersReady+1 === 2)
@@ -102,7 +103,7 @@ export default function Gamelobby()
             <div>
               {dealtHand.map((pile, pileIndex) => (
                 <div key={pileIndex}>
-                  Pile {pileIndex + 1}:{" "}
+                  Pile {pileIndex + 1}:Length {pile.length}::{" "}
                   {Array.isArray(pile) ? (
                     pile.map((card, cardIndex) => (
                       <span key={cardIndex}>

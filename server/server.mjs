@@ -85,7 +85,7 @@ io.on('connection', (socket) =>
     "K",
     "A",
   ];
-
+  
   const createDeck = () => {
     const deck = [];
     for (const suit of suits) {
@@ -95,7 +95,7 @@ io.on('connection', (socket) =>
     }
     return deck;
   };
-
+  
   const shuffle = (array) => {
     // Function to shuffle an array
     for (let i = array.length - 1; i > 0; i--) {
@@ -104,46 +104,43 @@ io.on('connection', (socket) =>
     }
     return array;
   };
-
+  
   let deck = createDeck();
-
+  
   // Shuffle the deck on server startup
   deck = shuffle(deck);
-
+  
   // Piles for each player
   let player1Piles = [];
   let player2Piles = [];
-
+  
   // Function to reset the piles
   const resetPiles = () => {
     player1Piles = [];
     player2Piles = [];
   };
-
+  
   // Distribute cards to each player into the specified piles
   const distributeCards = () => {
     // Reset the piles first
     resetPiles();
-
-    const piles = [[], [], [], [], [], [], [], []]; // 8 piles in total
-
-    // Distribute 4 piles with 5 cards each
-    for (let i = 0; i < 4; i++) {
-      piles[i] = deck.slice(i * 5, i * 5 + 5);
+  
+    // Distribute piles for each player
+    for (let i = 0; i < 2; i++) {
+      const pile1 = deck.slice(i * 5, i * 5 + 1);
+      const pile2 = deck.slice(i * 5 + 1, i * 5 + 6);
+      const pile3 = deck.slice(i * 5 + 6, i * 5 + 11);
+      const pile4 = deck.slice(i * 5 + 11, i * 5 + 26);
+  
+      if (i === 0) {
+        player1Piles.push(pile1, pile2, pile3, pile4);
+      } else {
+        player2Piles.push(pile1, pile2, pile3, pile4);
+      }
     }
-
-    // Distribute 2 piles with 15 cards each
-    piles[4] = deck.slice(20, 35);
-    piles[5] = deck.slice(35, 50);
-
-    // Distribute 2 piles with 1 card each
-    piles[6] = deck.slice(50, 51);
-    piles[7] = deck.slice(51, 52);
-
-    // Set the piles for each player
-    player1Piles = piles.slice(0, 4).concat(piles[6], piles[7]);
-    player2Piles = piles.slice(4, 6).concat(piles[6], piles[7]);
   };
+  
+  
 
   socket.on("game-started", (currRoomIndex) => {
     distributeCards();
