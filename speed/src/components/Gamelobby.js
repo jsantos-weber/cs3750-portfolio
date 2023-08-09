@@ -1,7 +1,5 @@
 import {React, useState, useEffect } from 'react';
 import io from "socket.io-client";
-import axios from 'axios';
-import DeckPage from '../Pages/Deck';
 
 const socket = io("http://localhost:5000");
 
@@ -25,7 +23,7 @@ export default function Gamelobby()
     }}); //Action listeners for when either player readys up
 
     //on dealt hand set dealt hand to display
-    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand)});
+    socket.on('dealthand', (playerHand) => {setDealtHand(playerHand); console.log("playerhand: " + playerHand);});
 
     socket.on('player-disconnected', () => 
     {
@@ -34,9 +32,6 @@ export default function Gamelobby()
       setRoomIndex(-1);
       setDisableReadyBtn(false);
     });
-
-    socket.on('')
-    
 
     const handleCreateGameBtn = () => { socket.emit('add-game'); } //Notify backend to create game
 
@@ -98,27 +93,15 @@ export default function Gamelobby()
         //3 = Game has Started
         if (displayIndex === 3) 
         {
-          
           return (
-            <div>
-              {dealtHand.map((pile, pileIndex) => (
-                <div key={pileIndex}>
-                  Pile {pileIndex + 1}:Length {pile.length}::{" "}
-                  {Array.isArray(pile) ? (
-                    pile.map((card, cardIndex) => (
-                      <span key={cardIndex}>
-                        {card.rank} of {card.suit} |{" "}
-                      </span>
-                    ))
-                  ) : (
-                    <span>Invalid pile data</span>
-                  )}
+              dealtHand.map( (pile, pileIndex) => 
+              (
+                <div key={pileIndex}> Pile {pileIndex + 1 + " [Length="+ pile.length +"] ---- "} 
+                {Array.isArray(pile) ? (pile.map((card, cardIndex) => (<span key={cardIndex}> {card.rank} of {card.suit} | {" "}</span>))) : (<span>Invalid pile data</span>)}
                 </div>
-              ))}
-            </div>
+              ))
           );
         }
-        //4 = If display lobby is ready to display cards display correct deck to correct player
       }
     return showDisplay();
 }
