@@ -309,9 +309,6 @@ app.post("/hello", async (req, res) => {
   });
 });
 
-
-
-
 // Endpoint to deal cards to each player
 app.get('/deal-cards', (req, res) => {
   distributeCards();
