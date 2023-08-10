@@ -58,18 +58,21 @@ export default function Gamelobby()
         }
     
         return () => clearInterval(interval);
-      }, [displayIndex, countdown]);
+      }, [playersReady,displayIndex, countdown]);
     
-      useEffect(() => {
-        if (countdown === 0 && displayIndex === 3) {
-          // The countdown has finished, do something when the game starts
-          // For example, start the game or navigate to the game screen
-          console.log("Game Started!");
-         console.log(dealtHand);
-          // Add your code to start the game here
-        }
-      }, [countdown, displayIndex]);
-
+    // function countdownTimer()
+    // {
+    //    let interval;
+    
+    //     if (displayIndex === 3 && countdown > 0) {
+    //       interval = setInterval(() => {
+    //         setCountdown((prevCountdown) => prevCountdown - 1);
+    //       }, 1000);
+    //     }
+    
+    //     return () => clearInterval(interval);
+    // }
+    
     //Function that determines what is displayed to players
     function showDisplay()
     {
@@ -94,12 +97,15 @@ export default function Gamelobby()
         if (displayIndex === 3) 
         {
           return (
-              dealtHand.map( (pile, pileIndex) => 
+              
+              <div><h1>{countdown === 0 ? dealtHand.map( (pile, pileIndex) => 
               (
                 <div key={pileIndex}> Pile {pileIndex + 1 + " [Length="+ pile.length +"] ---- "} 
                 {Array.isArray(pile) ? (pile.map((card, cardIndex) => (<span key={cardIndex}> {card.rank} of {card.suit} | {" "}</span>))) : (<span>Invalid pile data</span>)}
                 </div>
-              ))
+              )): countdown}</h1></div>
+              
+             
           );
         }
       }

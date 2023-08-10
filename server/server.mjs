@@ -199,8 +199,10 @@ io.on('connection', (socket) =>
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
 
-    lobbyRooms.forEach((room) => {
-      if (room.player1 == socket.id) {
+    lobbyRooms.forEach((room) => 
+    {
+      if (room.player1 == socket.id) 
+      {
         io.to(room.player2).emit("player-disconnected");
         room.playerCount = 0;
         (room.player1 = "null"),
